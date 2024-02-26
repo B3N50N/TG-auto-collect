@@ -1,4 +1,4 @@
-# telegram-download-daemon
+# telegram-auto-collect
 
 A Telegram Daemon (not a bot) for forward ,collect, record automation this is based on [telegram-download-daemon project of alfem](https://github.com/alfem/telegram-download-daemon/issues/48).
 
