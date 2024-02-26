@@ -4,11 +4,9 @@ A Telegram Daemon (not a bot) for forward ,collect, record automation this is ba
 
 This tool can help you:
 
-⋅ auto forward every possible document in a group or channel
-
-⋅ get everything from a group or channel
-
-⋅ record every message information in a group or channel
+* auto forward every possible document in a group or channel
+* get everything from a group or channel
+* record every message information in a group or channel
 
 Telegram bots are limited to 20Mb file size downloads. So I wrote this agent
 or daemon to allow bigger downloads (limited to 2GB by Telegram APIs).
@@ -18,8 +16,11 @@ or daemon to allow bigger downloads (limited to 2GB by Telegram APIs).
 You need Python3 (3.6 works fine, 3.5 will crash randomly).
 
 Install dependencies by running this command:
+
     pip venv TG-auto
+
     source ./TG-auto/bin/activate
+
     pip install -r requirements.txt
 
 (If you don't want to install `cryptg` and its dependencies, you just need to install `telethon`)
@@ -38,16 +39,22 @@ You need to configure these values:
 | `TELEGRAM_DAEMON_API_ID`   | `--api-id`              | api_id from https://core.telegram.org/api/obtaining_api_id   |                     |
 | `TELEGRAM_DAEMON_API_HASH` | `--api-hash`            | api_hash from https://core.telegram.org/api/obtaining_api_id |                     |
 | `TELEGRAM_DAEMON_DEST`     | `--dest`                | Destination path for downloaded files                       | `/telegram-downloads` |
-| `TELEGRAM_DAEMON_TEMP`     | `--temp`                | Destination path for temporary (download in progress) files                       | use --dest |
-| `TELEGRAM_DAEMON_CHANNEL`  | `--channel`             | Channel id to download from it (Please, check [Issue 45](https://github.com/alfem/telegram-download-daemon/issues/45), [Issue 48](https://github.com/alfem/telegram-download-daemon/issues/48) and [Issue 73](https://github.com/alfem/telegram-download-daemon/issues/73))                              |                     |
-| `TELEGRAM_DAEMON_DUPLICATES`  | `--duplicates`             | What to do with duplicated files: ignore, overwrite or rename them | rename                     |
+| `TELEGRAM_DAEMON_TEMP`     | `--temp`                | Destination path for temporary (download in progress) files                       | `/telegram-downloads-temp` |
+| `TELEGRAM_DAEMON_CHANNEL`  | `--channel`             | A channel to read all your command and Download document|                     |
 
 You can define them as Environment Variables, or put them as a command line arguments, for example:
 
     python telegram-download-daemon.py --api-id <your-id> --api-hash <your-hash> --channel <channel-number>
 
 
-Finally, resend any file link to the channel to start the downloading. This daemon can manage many downloads simultaneously.
+If it ask you to login with your phone, verification code, password, just login 
+
+after that you'll see config load, sql load
+
+Next
+
+If you want to queue download something from telegram, just forward downloadable media to the `TELEGRAM_DAEMON_CHANNEL`
+
 
 You can also 'talk' to this daemon using your Telegram client:
 
