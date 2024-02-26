@@ -3,19 +3,23 @@
 A Telegram Daemon (not a bot) for forward ,collect, record automation this is based on [telegram-download-daemon project of alfem](https://github.com/alfem/telegram-download-daemon/issues/48).
 
 This tool can help you:
-[] auto forward
+
+⋅ auto forward every possible document in a group or channel
+
+⋅ get everything from a group or channel
+
+⋅ record every message information in a group or channel
 
 Telegram bots are limited to 20Mb file size downloads. So I wrote this agent
 or daemon to allow bigger downloads (limited to 2GB by Telegram APIs).
-
-This is a modeifed version of https://github.com/alfem/telegram-download-daemon with better stability
 
 # Installation
 
 You need Python3 (3.6 works fine, 3.5 will crash randomly).
 
 Install dependencies by running this command:
-
+    pip venv TG-auto
+    source ./TG-auto/bin/activate
     pip install -r requirements.txt
 
 (If you don't want to install `cryptg` and its dependencies, you just need to install `telethon`)
