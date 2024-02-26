@@ -2,8 +2,8 @@
 
 A Telegram Daemon (not a bot) for forward ,collect, record automation this is based on [telegram-download-daemon project of alfem](https://github.com/alfem/telegram-download-daemon/issues/48).
 
-If you have got an Internet connected computer or NAS and you want to automate file downloading from Telegram channels, this
-daemon is for you.
+This tool can help you:
+    auto forward
 
 Telegram bots are limited to 20Mb file size downloads. So I wrote this agent
 or daemon to allow bigger downloads (limited to 2GB by Telegram APIs).
