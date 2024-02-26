@@ -80,3 +80,15 @@ For other function you'll have to "talk" with this daemon using your Telegram cl
 
 * this part of document is not yet born
 
+# Note
+You can have this tool to do anything you want even provide service to other except:
+
+'Selling it'
+
+Or i will stop update this repository and make it private
+
+Also I need help to finish this document and make this tool better.
+
+Ofcource, feel free to give me any suggestion 
+
+
