@@ -40,7 +40,7 @@ import pymssql
 
 
 
-TDD_VERSION="1.7.0-3V1LC4T"
+TAC_VERSION="1.7.2-3V1LC4T"
 
 TELEGRAM_DAEMON_API_ID = getenv("TELEGRAM_DAEMON_API_ID")
 TELEGRAM_DAEMON_API_HASH = getenv("TELEGRAM_DAEMON_API_HASH")
@@ -52,7 +52,7 @@ TELEGRAM_DAEMON_DEST=getenv("TELEGRAM_DAEMON_DEST", "/telegram-downloads")
 TELEGRAM_DAEMON_TEMP=getenv("TELEGRAM_DAEMON_TEMP", "/telegram-downloads-temp")
 TELEGRAM_DAEMON_DUPLICATES=getenv("TELEGRAM_DAEMON_DUPLICATES", "rename")
 
-TELEGRAM_DAEMON_TEMP_SUFFIX="tdd"
+TELEGRAM_DAEMON_TEMP_SUFFIX="tac"
 
 parser = argparse.ArgumentParser(
 	description="Script to download files from a Telegram Channel.")
@@ -99,7 +99,7 @@ api_hash = args.api_hash
 robot_chat_id = args.channel
 downloadFolder = args.dest
 tempFolder = args.temp
-duplicates=args.duplicates
+duplicates="rename"
 worker_count = multiprocessing.cpu_count()
 worker_count = 4
 updateFrequency = 30
@@ -150,8 +150,8 @@ ID_NAME = {}
 
 async def sendHelloMessage(client, robot_chat):
 	entity = await client.get_entity(robot_chat)
-	print("Telegram Download Daemon "+TDD_VERSION+" using Telethon "+__version__)
-	await client.send_message(entity, "Telegram Download Daemon "+TDD_VERSION+" using Telethon "+__version__)
+	print("Telegram Download Daemon "+TAC_VERSION+" using Telethon "+__version__)
+	await client.send_message(entity, "Telegram Download Daemon "+TAC_VERSION+" using Telethon "+__version__)
 	await client.send_message(entity, "Hi! Ready for your files!")
 
 @retry(tries=10,delay=8)
@@ -605,7 +605,7 @@ with client:
 					pass
 				if TOID == 0:
 					TOID = int(str(event.to_id).split("=")[1].replace(")",""))
-					print("TOID = "+ str(TOID))
+					# print("TOID = "+ str(TOID))
 					
 				TOID_full = event.to_id
 		except Exception as e:
@@ -1245,9 +1245,10 @@ with client:
 					latest_monitor_msg_id = auto_forward_list_B[auto_forward_list.index(TOID)]
 					old_msg_id = auto_forward_list_B[auto_forward_list.index(TOID)]
 					current_id = event.message.id
+					update_id = event.message.id
 					if_reload = False
 					# if TOID==2133534883:
-						# print("Proc1: "+str(event.message.id)+"....."+str(auto_forward_list_B[auto_forward_list.index(TOID)]))
+						# print("Proc1: "+str(current_id)+"....."+str(auto_forward_list_B[auto_forward_list.index(TOID)]))
 					
 					if latest_monitor_msg_id != -1 and int(current_id) != (latest_monitor_msg_id+1) and int(current_id) > latest_monitor_msg_id:
 						if_reload = True
@@ -1274,8 +1275,8 @@ with client:
 							await API_action_lock.acquire()
 							try:
 								# if TOID==2133534883:
-									# print("Proc1-1: "+str(actual_batch_size+2)+"....."+str(i)+"....."+str(current_id))
-								msg_group = await client.get_messages(TOID,limit=actual_batch_size+1, min_id=i,max_id=int(current_id),reverse=True)
+									# print("Proc1-1: "+str(actual_batch_size+1)+"....."+str(i-1)+"....."+str(current_id+1))
+								msg_group = await client.get_messages(TOID,limit=actual_batch_size+1, min_id=i-1,max_id=int(current_id)+1,reverse=True)
 								# if TOID==2133534883:
 									# print("Proc1-1.1: "+str(len(msg_group)))
 							except Exception as e:
@@ -1293,8 +1294,9 @@ with client:
 							if if_skip == False:
 								for event_message in msg_group:
 									afd_job_list.append(event_message)
+									update_id = event_message.id
 									# if TOID==2133534883:
-										# print("Proc1-2: "+str(event.message.id))
+										# print("Proc1-2: "+str(update_id))
 							
 								if len(msg_group)>0:
 									if msg_group[len(msg_group)-1].id>=i+batch_size:
@@ -1304,9 +1306,11 @@ with client:
 							
 							i+=batch_size
 							
-					latest_monitor_msg_id = int(current_id)
-					if latest_monitor_msg_id>auto_forward_list_B[auto_forward_list.index(TOID)]:
-						auto_forward_list_B[auto_forward_list.index(TOID)] = latest_monitor_msg_id
+						latest_monitor_msg_id = update_id
+						if latest_monitor_msg_id>auto_forward_list_B[auto_forward_list.index(TOID)]:
+							auto_forward_list_B[auto_forward_list.index(TOID)] = latest_monitor_msg_id
+						# if TOID==2133534883:
+							# print("Proc1-3: "+str(auto_forward_list_B[auto_forward_list.index(TOID)]))
 						
 					
 				except Exception as e:
@@ -1328,7 +1332,7 @@ with client:
 						await afd_handler_lock.acquire()
 						try:
 							# if TOID==2133534883:
-								# print("Proc2: "+str(event.message.id)+"....."+str(auto_forward_list_B[auto_forward_list.index(TOID)]))
+								# print("Proc2: "+str(afd_job.id)+"....."+str(auto_forward_list_B[auto_forward_list.index(TOID)]))
 							await monitor_event_handler([],afd_job,TOID)
 							await asyncio.sleep(actionlock_release_interval)
 							proc_msg_count+=1
@@ -1362,9 +1366,9 @@ with client:
 					
 					await afd_event_lock.acquire()
 					try:
-						if int(current_id) < auto_forward_list_B[auto_forward_list.index(TOID)]:
-							pass
-						else:
+						# if TOID==2133534883:
+							# print("Proc3-0: "+str(int(current_id))+"....."+str(auto_forward_list_B[auto_forward_list.index(TOID)]))
+						if int(current_id) > auto_forward_list_B[auto_forward_list.index(TOID)]:
 							if_proc = True
 							auto_forward_list_B[auto_forward_list.index(TOID)] = int(current_id)
 					except:
@@ -1374,7 +1378,7 @@ with client:
 						
 					if if_proc:
 						# if TOID==2133534883:
-							# print("Proc3: "+str(event.message.id)+"....."+str(auto_forward_list_B[auto_forward_list.index(TOID)]))
+							# print("Proc3: "+str(int(current_id))+"....."+str(auto_forward_list_B[auto_forward_list.index(TOID)]))
 						await monitor_event_handler(event,event.message,TOID)
 				except Exception as e:
 					if "is not in list" in str(e):
@@ -1588,6 +1592,7 @@ with client:
 					latest_monitor_msg_id = RC_list_B[RC_list.index(RCID)]
 					old_msg_id = RC_list_B[RC_list.index(RCID)]
 					current_id = event.message.id
+					update_id = event.message.id
 					if_reload = False
 					RC_ID_list = []
 					
@@ -1611,10 +1616,11 @@ with client:
 								
 							assert (i+actual_batch_size-1)<=int(current_id)
 							assert actual_batch_size<=100
+							
 								
 							await API_action_lock.acquire()
 							try:
-								msg_group = await client.get_messages(RCID,limit=actual_batch_size+1, min_id=i-1,max_id=int(current_id),reverse=True)
+								msg_group = await client.get_messages(RCID,limit=actual_batch_size+1, min_id=i-1,max_id=int(current_id)+1,reverse=True)
 							except Exception as e:
 								if_skip = True
 								if "Invalid channel object. Make sure to pass the right types, for instance making sure that the request is designed for channels or otherwise look for a different one more suited" in str(e):
@@ -1629,6 +1635,7 @@ with client:
 							if if_skip == False:
 								for event_message in msg_group:
 									RC_job_list.append(event_message)
+									update_id = event_message.id
 								
 								if len(msg_group)>0:
 									if msg_group[len(msg_group)-1].id>=i+batch_size:
@@ -1638,9 +1645,9 @@ with client:
 							
 							i+=batch_size
 							
-					latest_monitor_msg_id = int(current_id)
-					if latest_monitor_msg_id>RC_list_B[RC_list.index(RCID)]:
-						RC_list_B[RC_list.index(RCID)] = latest_monitor_msg_id
+						latest_monitor_msg_id = update_id
+						if latest_monitor_msg_id>RC_list_B[RC_list.index(RCID)]:
+							RC_list_B[RC_list.index(RCID)] = latest_monitor_msg_id
 						
 					
 				except Exception as e:
@@ -1691,9 +1698,7 @@ with client:
 					
 					await RC_list_lock.acquire()
 					try:
-						if int(current_id) < RC_list_B[RC_list.index(RCID)]and await check_record_exist(RCID,event.message.id):
-							pass
-						else:
+						if int(current_id) > RC_list_B[RC_list.index(RCID)]and await check_record_exist(RCID,event.message.id)==False:
 							if_proc = True
 							RC_list_B[RC_list.index(RCID)] = int(current_id)
 					except Exception as e:
@@ -3032,7 +3037,10 @@ with client:
 							
 								await asyncio.sleep(0.2)
 						except Exception as e:
-							print('Events handler error(EXT AFD FD-1): ', str(e))
+							if "argument of type 'NoneType' is not iterable" in str(e):
+								pass
+							else:
+								print('Events handler error(EXT AFD FD-1): ', str(e))
 						finally:
 							reply_history_lock.release()
 							
