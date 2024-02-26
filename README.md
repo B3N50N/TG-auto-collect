@@ -16,7 +16,7 @@ The installation has two part:
 ### SQL
 You will need mssql(express version is fine but more complicate setting)
 
-Use the [deploy sql scrip.sql] to deploy the sql database
+Use the [SQL-TGrobot-build.sql]() to deploy the sql database
 
 
 ### python
