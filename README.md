@@ -2,7 +2,7 @@
 
 A Telegram Daemon (not a bot) for forward ,collect, record automation 
 
-This daemon is based on [telegram-download-daemon project of alfem](https://github.com/alfem/telegram-download-daemon/issues/48).
+This daemon is based on [telegram-download-daemon project from alfem](https://github.com/alfem/telegram-download-daemon/issues/48).
 
 This tool can help you:
 
