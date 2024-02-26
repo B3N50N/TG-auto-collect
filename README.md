@@ -87,7 +87,7 @@ You can have this tool to do anything you want even provide service to other exc
 
 Or i will stop update this repository and make it private
 
-(You can berak the GNU license from [alfem](https://github.com/alfem/telegram-download-daemon/blob/master/LICENSE.txt) also,since part of code of this project is based on it)
+(You can't berak the GNU GPL V3 license ,since part of code of this project is based on [alfem](https://github.com/alfem/telegram-download-daemon/blob/master/LICENSE.txt))
 
 Also I need help to finish this document and make this tool better.
 
