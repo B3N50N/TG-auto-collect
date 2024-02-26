@@ -6,7 +6,7 @@ This daemon is based on [telegram-download-daemon project of alfem](https://gith
 
 This tool can help you:
 
-* auto queue download downloadable media you want
+* auto queue download downloadable media you want (with auto dedupe)
 * auto forward every possible document in a group or channel
 * get everything from a group or channel
 * record every message information in a group or channel
