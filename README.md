@@ -17,7 +17,7 @@ or daemon to allow bigger downloads (limited to 2GB by Telegram APIs).
 # Installation
 The installation has three part:
 ### SQL
-You will need mssql(express version is fine but more complicate setting)
+You will need MSSQL(express version is fine but more complicate setting)
 
 Use the [SQL-TGrobot-build.sql](https://github.com/B3N50N/TG-auto-collect/blob/main/SQL-TGrobot-build.sql) to deploy the sql database
 
