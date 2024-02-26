@@ -15,6 +15,7 @@ or daemon to allow bigger downloads (limited to 2GB by Telegram APIs).
 The installation has two part:
 ### SQL
 You will need mssql(express version is fine but more complicate setting)
+and use the [deploy sql scrip.sql] to deploy the sql database
 
 
 ### python
