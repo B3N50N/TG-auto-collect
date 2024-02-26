@@ -12,7 +12,10 @@ Telegram bots are limited to 20Mb file size downloads. So I wrote this agent
 or daemon to allow bigger downloads (limited to 2GB by Telegram APIs).
 
 # Installation
+The installation has two part:
+### SQL
 
+### python
 You need Python3 (3.6 works fine, 3.5 will crash randomly).
 
 Install dependencies by running this command:
