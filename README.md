@@ -16,7 +16,17 @@ The installation has two part:
 ### SQL
 You will need mssql(express version is fine but more complicate setting)
 
-Use the [SQL-TGrobot-build.sql]() to deploy the sql database
+Use the [SQL-TGrobot-build.sql](https://github.com/B3N50N/TG-auto-collect/blob/main/SQL-TGrobot-build.sql) to deploy the sql database
+
+### config file
+You will need to modify all possible field in [TG_auto_save.json]
+
+include:
+
+* sql connection string
+* mirror channel (channel id)
+
+both are required
 
 
 ### python
@@ -62,10 +72,8 @@ Next
 
 If you want to queue download something from telegram, just forward downloadable media to the `TELEGRAM_DAEMON_CHANNEL`
 
+For other function you'll have to "talk" with this daemon using your Telegram client:
 
-You can also 'talk' to this daemon using your Telegram client:
 
-* Say "list" and get a list of available files in the destination path.
-* Say "status" to the daemon to check the current status.
-* Say "clean" to remove stale (*.tdd) files from temporary directory.
+* this part of document is not yet born
 
